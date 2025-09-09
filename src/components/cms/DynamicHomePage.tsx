@@ -1,18 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PublicSiteLayout from "@/components/layout/PublicSiteLayout";
 import { DynamicSectionRenderer } from "./DynamicSectionRenderer";
 import { PersonalizedWelcomeModal } from "@/components/homepage/PersonalizedWelcomeModal";
 import { usePersonalizedWelcome } from "@/hooks/usePersonalizedWelcome";
-import { useHomePageContent } from "@/hooks/useHomePageContent";
+import { useHomePageContent, SecaoPagina } from "@/hooks/useHomePageContent";
 import { PageLoader } from "@/components/performance/PageLoader";
 import InspiringDigitalJourneyHomePage from "@/pages/public/InspiringDigitalJourneyHomePage";
 import { EditModeProvider } from "@/contexts/EditModeContext";
 import { EditModeToggle } from "@/components/live-editor/EditModeToggle";
 import { ContentEditModal } from "@/components/live-editor/ContentEditModal";
+import { DragDropSectionList } from "./DragDropSectionList";
 
 const DynamicHomePage: React.FC = () => {
   const { isFirstTime, showWelcomeModal, handleWelcomeResponse, closeWelcomeModal } = usePersonalizedWelcome();
   const { paginaHomeData, loading, error } = useHomePageContent();
+  const [currentSections, setCurrentSections] = useState<SecaoPagina[]>([]);
+
+  // Update current sections when page data changes
+  useEffect(() => {
+    if (paginaHomeData?.secoes_pagina) {
+      setCurrentSections(paginaHomeData.secoes_pagina);
+    }
+  }, [paginaHomeData?.secoes_pagina]);
 
   useEffect(() => {
     document.title = "Igreja em Células - Encontre o seu Lugar";
@@ -51,13 +60,11 @@ const DynamicHomePage: React.FC = () => {
   return (
     <EditModeProvider>
       <PublicSiteLayout>
-        {paginaHomeData.secoes_pagina.map((secao) => (
-          <DynamicSectionRenderer 
-            key={secao.id} 
-            secao={secao} 
-            isFirstTime={isFirstTime}
-          />
-        ))}
+        <DragDropSectionList 
+          secoes={currentSections}
+          isFirstTime={isFirstTime}
+          onSectionsReorder={setCurrentSections}
+        />
         
         <PersonalizedWelcomeModal 
           isOpen={showWelcomeModal}
