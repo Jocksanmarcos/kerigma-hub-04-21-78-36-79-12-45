@@ -1,0 +1,861 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Live Editor Styles */
+[contentEditable="true"].empty-placeholder:empty::before {
+  content: attr(data-placeholder);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+  font-style: italic;
+}
+
+.live-editor-mobile {
+  max-width: 390px;
+  margin: 0 auto;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+@layer base {
+  :root {
+    /* TEMA CLARO - "Kerigma Hub" - Design System Unificado */
+    --background: 0 0% 100%; /* Branco puro para clareza */
+    --foreground: 220 14% 11%; /* Texto principal - quase preto para melhor contraste */
+    --card: 0 0% 100%; /* Cards brancos */
+    --card-foreground: 220 14% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 14% 11%;
+    
+    /* Paleta principal - Kerigma Hub Blueprint */
+    --primary: 215 89% 62%; /* #3A7DFF - Azul Primário (Ação e Confiança) */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 215 89% 75%; /* Versão mais clara */
+    --primary-dark: 215 89% 50%; /* Versão mais escura */
+    --primary-soft: 215 89% 97%; /* Background suave */
+    
+    --secondary: 21 100% 62%; /* #FF8A3A - Laranja Secundário (Destaque e Energia) */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-light: 21 100% 75%; /* Versão mais clara */
+    --secondary-dark: 21 100% 50%; /* Versão mais escura */
+    --secondary-soft: 21 100% 98%; /* Background suave */
+    
+    --accent: 354 78% 46%; /* #C1272D - Vermelho como cor de acento */
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 354 78% 60%; /* Versão mais clara */
+    --accent-dark: 354 78% 35%; /* Versão mais escura */
+    --accent-soft: 354 78% 97%; /* Background suave */
+    
+    /* Cores de apoio - Blueprint Kerigma */
+    --text-primary: 0 0% 17%; /* #2B2B2B - Cinza Escuro (Títulos) */
+    --text-secondary: 0 0% 35%; /* #5A5A5A - Cinza Médio (Textos de Apoio) */
+    --background-light: 210 20% 96%; /* #F0F2F5 - Cinza Claro (Fundos e Bordas) */
+    
+    --success: 142 71% 45%; /* Verde para sucesso */
+    --success-foreground: 0 0% 100%;
+    --success-soft: 142 71% 97%;
+    
+    --warning: 21 100% 62%; /* Usar o laranja secundário para avisos */
+    --warning-foreground: 0 0% 100%;
+    --warning-soft: 21 100% 97%;
+    
+    --error: 0 84% 60%; /* Vermelho para erros */
+    --error-foreground: 0 0% 100%;
+    --error-soft: 0 84% 97%;
+    
+    --info: 215 89% 62%; /* Usar o azul primário para informações */
+    --info-foreground: 0 0% 100%;
+    --info-soft: 215 89% 97%;
+    
+    /* Superfícies e fundos */
+    --muted: 210 20% 96%; /* #F0F2F5 - Cinza Claro para fundos */
+    --muted-foreground: 0 0% 35%; /* #5A5A5A - Cinza Médio para texto secundário */
+    --border: 210 20% 90%; /* Bordas suaves baseadas no cinza claro */
+    --input: 214 32% 91%;
+    --ring: 213 89% 47%;
+    --radius: 0.75rem; /* Bordas consistentes */
+    
+    /* Destructive colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Sistema de Design Kerigma - Gradientes com cores originais */
+    --kerigma-gradient: linear-gradient(135deg, hsl(213 89% 47%), hsl(48 100% 50%));
+    --kerigma-gradient-soft: linear-gradient(135deg, hsl(213 89% 47% / 0.08), hsl(48 100% 50% / 0.08));
+    --kerigma-gradient-warm: linear-gradient(135deg, hsl(48 100% 50%), hsl(213 89% 95%));
+    --kerigma-gradient-vertical: linear-gradient(180deg, hsl(213 89% 47%), hsl(48 100% 50%));
+    
+    /* Superfícies especializadas */
+    --surface-primary: 213 89% 98%;
+    --surface-secondary: 48 100% 97%;
+    --surface-neutral: 210 40% 99%;
+    --surface-warm: 30 50% 98%;
+    --surface-cool: 210 50% 98%;
+    
+    /* Sombras do sistema Kerigma */
+    --kerigma-shadow: 0 1px 3px 0 hsl(213 89% 47% / 0.10), 0 1px 2px -1px hsl(213 89% 47% / 0.06);
+    --kerigma-shadow-md: 0 4px 6px -1px hsl(213 89% 47% / 0.10), 0 2px 4px -1px hsl(213 89% 47% / 0.06);
+    --kerigma-shadow-lg: 0 10px 15px -3px hsl(213 89% 47% / 0.12), 0 4px 6px -2px hsl(213 89% 47% / 0.05);
+    --kerigma-shadow-xl: 0 20px 25px -5px hsl(213 89% 47% / 0.15), 0 10px 10px -5px hsl(213 89% 47% / 0.04);
+    --kerigma-glow: 0 0 40px hsl(213 89% 47% / 0.20);
+    --kerigma-glow-warm: 0 0 30px hsl(48 100% 50% / 0.25);
+    
+    /* Tipografia - Escalas responsivas */
+    --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+    --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+    --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+    --font-size-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
+    --font-size-4xl: clamp(2.25rem, 1.9rem + 1.75vw, 3rem);
+    
+    /* Live Editor Mobile Preview */
+    --mobile-preview-width: 375px;
+    
+    /* Layout Specific */
+    --header-height: 4rem;
+    --sidebar-width: 16rem;
+    --sidebar-collapsed: 4rem;
+
+    --sidebar-background: 0 0% 100%; /* Sidebar branca para clareza */
+    --sidebar-foreground: 224 71.4% 4.1%;
+    --sidebar-primary: 213 89% 47%; /* Azul Kerigma original */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 213 89% 95%; /* Azul muito claro */
+    --sidebar-accent-foreground: 213 89% 30%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 213 89% 47%;
+  }
+
+  .dark {
+    /* TEMA ESCURO (OPCIONAL) - Kerigma Hub */
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 213 89% 47%; /* Azul Kerigma original */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 48 100% 50%; /* Amarelo/dourado Kerigma original */
+    --secondary-foreground: 224 71.4% 4.1%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 213 89% 47%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 213 89% 47%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Regras de ouro de responsividade Mobile-First */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+
+  img, picture, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Mobile-first touch targets */
+  button, a, input, textarea, select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent zoom on input focus in iOS */
+  input, textarea, select {
+    font-size: 16px;
+  }
+
+  /* Smooth scrolling for better mobile experience */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Improve text rendering on mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@layer utilities {
+  .story-link {
+    position: relative;
+    display: inline-block;
+  }
+  .story-link::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: hsl(var(--primary));
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+  }
+  .story-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  .hover-scale {
+    transition: transform 0.2s ease;
+  }
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+
+  .pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Superfícies do "Acolhimento Digital" */
+  .bg-surface-primary { background-color: hsl(var(--surface-primary)); }
+  .bg-surface-secondary { background-color: hsl(var(--surface-secondary)); }
+  .bg-surface-warm { background-color: hsl(var(--surface-warm)); }
+  .bg-surface-community { background-color: hsl(var(--surface-community)); }
+  
+  /* Gradientes do sistema */
+  .bg-professional-gradient { background: var(--professional-gradient); }
+  .bg-professional-gradient-soft { background: var(--professional-gradient-soft); }
+  .bg-professional-gradient-warm { background: var(--professional-gradient-warm); }
+  
+  /* Sombras do tema profissional */
+  .shadow-professional { box-shadow: var(--professional-shadow); }
+  .shadow-professional-lg { box-shadow: var(--professional-shadow-lg); }
+  
+  /* Estados visuais para elementos interativos */
+  .interactive-element {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .interactive-element:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--kerigma-shadow-lg);
+  }
+  
+  .interactive-element:focus {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  
+  .interactive-element:active {
+    transform: translateY(0);
+    box-shadow: var(--kerigma-shadow);
+  }
+  
+  /* Estados de loading */
+  .skeleton-pulse {
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--accent)) 50%, hsl(var(--muted)) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+  }
+  
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* Toast notifications styling */
+  .toast-success {
+    background: hsl(var(--success));
+    color: hsl(var(--success-foreground));
+    border: 1px solid hsl(var(--success));
+  }
+  
+  .toast-error {
+    background: hsl(var(--error));
+    color: hsl(var(--error-foreground));
+    border: 1px solid hsl(var(--error));
+  }
+  
+  .toast-warning {
+    background: hsl(var(--warning));
+    color: hsl(var(--warning-foreground));
+    border: 1px solid hsl(var(--warning));
+  }
+  
+  .toast-info {
+    background: hsl(var(--info));
+    color: hsl(var(--info-foreground));
+    border: 1px solid hsl(var(--info));
+  }
+  
+  /* Utilitários de espaçamento e layout Mobile-First */
+  .section-y { 
+    padding-top: 2rem; 
+    padding-bottom: 2rem; 
+  }
+  
+  @media (min-width: 768px) {
+    .section-y { 
+      padding-top: 4rem; 
+      padding-bottom: 4rem; 
+    }
+  }
+  
+  .content-focus { 
+    max-width: 100%; 
+    margin: 0 auto; 
+    padding: 0 1rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .content-focus { 
+      max-width: 1200px; 
+      padding: 0 2rem;
+    }
+  }
+  
+  /* Bordas e cantos arredondados consistentes */
+  .rounded-kerigma { border-radius: var(--radius); }
+  
+  /* Sombras do sistema */
+  .shadow-kerigma { box-shadow: var(--kerigma-shadow); }
+  .shadow-kerigma-md { box-shadow: var(--kerigma-shadow-md); }
+  .shadow-kerigma-lg { box-shadow: var(--kerigma-shadow-lg); }
+  .shadow-kerigma-xl { box-shadow: var(--kerigma-shadow-xl); }
+  
+  /* Tipografia responsiva */
+  .text-responsive-xs { font-size: var(--font-size-xs); }
+  .text-responsive-sm { font-size: var(--font-size-sm); }
+  .text-responsive-base { font-size: var(--font-size-base); }
+  .text-responsive-lg { font-size: var(--font-size-lg); }
+  .text-responsive-xl { font-size: var(--font-size-xl); }
+  .text-responsive-2xl { font-size: var(--font-size-2xl); }
+  .text-responsive-3xl { font-size: var(--font-size-3xl); }
+  .text-responsive-4xl { font-size: var(--font-size-4xl); }
+
+  /* Mobile-first utilities */
+  .mobile-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-stack {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  /* Responsive grid utilities */
+  .responsive-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .responsive-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Table responsiveness */
+  .responsive-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .responsive-table {
+    min-width: 600px;
+    width: 100%;
+  }
+
+  /* Live Editor Mobile Preview Mode */
+  .live-editor-mobile {
+    overflow-x: auto;
+  }
+  
+  .live-editor-mobile body {
+    min-width: var(--mobile-preview-width);
+    max-width: var(--mobile-preview-width);
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px hsl(var(--border)), 0 20px 40px -12px hsl(var(--foreground) / 0.25);
+  }
+
+  /* Live Editor Forced Positioning */
+  .design-studio-panel {
+    position: fixed !important;
+    z-index: 2000 !important;
+  }
+
+  .live-editor-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2000;
+    width: 350px;
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    box-shadow: var(--acolhimento-shadow-lg);
+  }
+
+  /* =========================
+     ACESSIBILIDADE - Configurações Adaptáveis
+     ========================= */
+
+  /* Alto Contraste */
+  .accessibility-high-contrast {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --primary: 45 93% 47%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 210 40% 85%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 85%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+  }
+
+  /* Tema Profissional/Moderno */
+  .professional-theme {
+    --background: 222 84% 4.9%; /* Fundo escuro elegante */
+    --foreground: 210 40% 98%; /* Texto claro */
+    --card: 222 84% 5.9%; /* Cards escuros */
+    --card-foreground: 210 40% 98%;
+    --popover: 222 84% 5.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 212 100% 70%; /* Azul cyan brilhante */
+    --primary-foreground: 222 84% 4.9%;
+    --primary-light: 212 100% 80%;
+    --primary-dark: 212 100% 60%;
+    --primary-soft: 212 100% 8%;
+    
+    --secondary: 47 96% 53%; /* Dourado elegante */
+    --secondary-foreground: 222 84% 4.9%;
+    --secondary-light: 47 96% 70%;
+    --secondary-dark: 47 96% 40%;
+    --secondary-soft: 47 96% 8%;
+    
+    --accent: 142 76% 36%; /* Verde esmeralda */
+    --accent-foreground: 210 40% 98%;
+    --accent-light: 142 76% 50%;
+    --accent-dark: 142 76% 25%;
+    --accent-soft: 142 76% 8%;
+    
+    --muted: 215 27.9% 16.9%; /* Cinza escuro */
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 212 100% 70%;
+    
+    /* Estados de sucesso, erro, etc. */
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+    --success-soft: 142 76% 8%;
+    
+    --warning: 47 96% 53%;
+    --warning-foreground: 222 84% 4.9%;
+    --warning-soft: 47 96% 8%;
+    
+    --error: 0 62.8% 30.6%;
+    --error-foreground: 210 40% 98%;
+    --error-soft: 0 62.8% 8%;
+    
+    /* Superfícies especializadas do tema profissional */
+    --surface-primary: 212 100% 8%;
+    --surface-secondary: 47 96% 8%;
+    --surface-neutral: 215 27.9% 8%;
+    --surface-warm: 47 96% 8%;
+    --surface-cool: 212 100% 8%;
+    
+    /* Gradientes do tema profissional */
+    --professional-gradient: linear-gradient(135deg, hsl(212 100% 70%), hsl(47 96% 53%));
+    --professional-gradient-soft: linear-gradient(135deg, hsl(212 100% 70% / 0.1), hsl(47 96% 53% / 0.1));
+    --professional-gradient-warm: linear-gradient(135deg, hsl(47 96% 53%), hsl(212 100% 8%));
+    
+    /* Sombras do tema profissional */
+    --professional-shadow: 0 2px 8px 0 hsl(212 100% 70% / 0.2), 0 1px 3px 0 hsl(212 100% 70% / 0.1);
+    --professional-shadow-lg: 0 10px 25px -5px hsl(212 100% 70% / 0.3), 0 4px 8px -2px hsl(212 100% 70% / 0.15);
+    
+    /* Sidebar específica para tema profissional */
+    --sidebar-background: 222 84% 3.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 212 100% 70%;
+    --sidebar-primary-foreground: 222 84% 4.9%;
+    --sidebar-accent: 215 27.9% 12%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 27.9% 12%;
+    --sidebar-ring: 212 100% 70%;
+  }
+
+  /* Texto Grande */
+  .accessibility-large-text {
+    --font-size-xs: 1rem;
+    --font-size-sm: 1.125rem;
+    --font-size-base: 1.25rem;
+    --font-size-lg: 1.5rem;
+    --font-size-xl: 1.75rem;
+    --font-size-2xl: 2.25rem;
+    --font-size-3xl: 2.75rem;
+    --font-size-4xl: 3.5rem;
+  }
+
+  .accessibility-large-text * {
+    font-size: var(--accessibility-font-size, inherit) !important;
+  }
+
+  /* Movimento Reduzido */
+  .accessibility-reduced-motion *,
+  .accessibility-reduced-motion *::before,
+  .accessibility-reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Foco Aprimorado */
+  .accessibility-enhanced-focus *:focus,
+  .accessibility-enhanced-focus *:focus-visible {
+    outline: 3px solid hsl(var(--primary)) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 5px hsl(var(--primary)) !important;
+  }
+
+  /* Interface Simplificada */
+  .accessibility-simplified-ui .shadow-lg,
+  .accessibility-simplified-ui .shadow-md,
+  .accessibility-simplified-ui .shadow-sm {
+    box-shadow: none !important;
+  }
+
+  .accessibility-simplified-ui .bg-gradient-to-r,
+  .accessibility-simplified-ui .bg-gradient-to-l,
+  .accessibility-simplified-ui .bg-gradient-to-t,
+  .accessibility-simplified-ui .bg-gradient-to-b {
+    background: hsl(var(--background)) !important;
+  }
+
+  /* Extra Large Text */
+  .accessibility-extra-large-text {
+    --font-size-xs: 1.125rem;
+    --font-size-sm: 1.25rem;
+    --font-size-base: 1.5rem;
+    --font-size-lg: 1.75rem;
+    --font-size-xl: 2rem;
+    --font-size-2xl: 2.5rem;
+    --font-size-3xl: 3rem;
+    --font-size-4xl: 4rem;
+  }
+
+  /* Young Theme */
+  .young-theme {
+    --primary: 260 80% 55%; /* Purple vibrante */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 315 75% 55%; /* Pink vibrante */
+    --secondary-foreground: 0 0% 100%;
+    --accent: 45 90% 55%; /* Orange vibrante */
+    --accent-foreground: 0 0% 100%;
+    --background: 255 100% 99%; /* Branco puro */
+    --foreground: 240 10% 4%; /* Preto suave */
+    --muted: 260 20% 96%; /* Roxo muito claro */
+    --muted-foreground: 260 10% 40%;
+    --border: 260 30% 85%;
+    --input: 260 30% 85%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+  }
+
+  .young-theme .bg-kerigma-gradient {
+    background: linear-gradient(135deg, hsl(260 80% 55%), hsl(315 75% 55%)) !important;
+  }
+
+  .young-theme .bg-kerigma-gradient-soft {
+    background: linear-gradient(135deg, hsl(260 80% 55% / 0.1), hsl(315 75% 55% / 0.1)) !important;
+  }
+
+  /* Accessibility Theme */
+  .accessibility-theme {
+    --background: 45 100% 95%; /* Amarelo muito claro */
+    --foreground: 0 0% 0%; /* Preto puro */
+    --card: 45 100% 98%;
+    --card-foreground: 0 0% 0%;
+    --primary: 0 0% 0%; /* Preto */
+    --primary-foreground: 45 100% 90%;
+    --secondary: 45 100% 85%; /* Amarelo */
+    --secondary-foreground: 0 0% 0%;
+    --muted: 45 50% 90%;
+    --muted-foreground: 0 0% 20%;
+    --border: 0 0% 30%;
+    --input: 45 100% 98%;
+    --accent: 45 100% 85%;
+    --accent-foreground: 0 0% 0%;
+  }
+
+  /* Botões grandes para acessibilidade */
+  .accessibility-theme button,
+  .accessibility-theme .touch-target {
+    min-height: 48px !important;
+    min-width: 48px !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    border: 2px solid hsl(var(--border)) !important;
+  }
+
+  .accessibility-theme input,
+  .accessibility-theme textarea,
+  .accessibility-theme select {
+    min-height: 48px !important;
+    font-size: 1.125rem !important;
+    border: 2px solid hsl(var(--border)) !important;
+  }
+
+  /* Animações para tema jovem */
+  .young-theme .interactive-element:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 30px hsl(260 80% 55% / 0.3);
+  }
+
+  .young-theme .card:hover {
+    box-shadow: 0 8px 25px hsl(315 75% 55% / 0.2);
+  }
+  .accessibility-simplified-ui .shadow-sm {
+    box-shadow: none !important;
+    border: 1px solid hsl(var(--border)) !important;
+  }
+
+  .accessibility-simplified-ui .rounded-lg,
+  .accessibility-simplified-ui .rounded-md {
+    border-radius: 4px !important;
+  }
+
+  .accessibility-simplified-ui .bg-gradient-to-br,
+  .accessibility-simplified-ui .bg-gradient-to-r {
+    background: hsl(var(--card)) !important;
+  }
+
+  /* =========================
+     TEMA JOVEM - Configurações Visuais
+     ========================= */
+
+  /* Cores Vibrantes */
+  .young-theme-vibrant-colors {
+    filter: saturate(1.3) brightness(1.05);
+  }
+
+  /* Fundos Gradiente */
+  .young-theme-gradient-backgrounds .bg-card {
+    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--muted)));
+  }
+
+  .young-theme-gradient-backgrounds .bg-background {
+    background: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)/0.3));
+  }
+
+  /* Elementos Animados */
+  .young-theme-animated-elements button,
+  .young-theme-animated-elements .card,
+  .young-theme-animated-elements [role="button"] {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .young-theme-animated-elements button:hover,
+  .young-theme-animated-elements .card:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .young-theme-animated-elements *[data-state="open"] {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Elementos Interativos */
+  .young-theme-interactive-elements button:active {
+    transform: scale(0.98);
+  }
+
+  .young-theme-interactive-elements .card {
+    cursor: pointer;
+  }
+
+  .young-theme-interactive-elements .card:hover {
+    box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+  }
+
+  /* Esquemas de Cor para Jovens */
+  [data-color-scheme="vibrant"] {
+    --primary: 330 81% 60%;
+    --secondary: 291 64% 42%;
+    --accent: 265 89% 78%;
+  }
+
+  [data-color-scheme="neon"] {
+    --primary: 158 64% 52%;
+    --secondary: 199 89% 48%;
+    --accent: 270 95% 75%;
+  }
+
+  [data-color-scheme="sunset"] {
+    --primary: 25 95% 53%;
+    --secondary: 340 82% 52%;
+    --accent: 45 93% 58%;
+  }
+
+  [data-color-scheme="ocean"] {
+    --primary: 195 100% 50%;
+    --secondary: 220 91% 54%;
+    --accent: 180 100% 70%;
+  }
+
+  [data-color-scheme="forest"] {
+    --primary: 142 71% 45%;
+    --secondary: 95 100% 35%;
+    --accent: 120 60% 60%;
+  }
+
+  /* =========================
+     TUTORIAL INTERATIVO
+     ========================= */
+
+  .tutorial-highlight {
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 0 0 4px hsl(var(--primary)), 0 0 0 8px hsl(var(--primary) / 0.3) !important;
+    border-radius: 8px !important;
+  }
+
+  .tutorial-highlight::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border: 2px dashed hsl(var(--primary));
+    border-radius: 12px;
+    animation: tutorialPulse 2s infinite;
+  }
+
+  @keyframes tutorialPulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Perfis de Usuário */
+  [data-user-profile="jovem"] {
+    --transition-speed: 0.2s;
+  }
+
+  [data-user-profile="adulto"] {
+    --transition-speed: 0.3s;
+  }
+
+  [data-user-profile="idoso"] {
+    --transition-speed: 0.5s;
+  }
+
+  [data-user-profile="idoso"] button,
+  [data-user-profile="idoso"] [role="button"] {
+    min-height: 56px !important;
+    min-width: 56px !important;
+    font-size: 1.125rem !important;
+  }
+}
+
+/* PWA & Offline Support */
+.offline-mode {
+  filter: grayscale(0.3) opacity(0.9);
+}
+
+.offline-badge {
+  display: none;
+}
+
+.offline-mode .offline-badge {
+  display: block !important;
+}
+
+/* Loading states for PWA */
+.pwa-loading {
+  @apply animate-pulse bg-muted/50;
+}
+
+/* Install prompt animations */
+.install-prompt {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,13 @@
+// Export all public editable components
+export { EditableText } from './EditableText';
+export { EditableHeading } from './EditableHeading';
+export { EditableParagraph } from './EditableParagraph';
+export { EditableButton } from './EditableButton';
+export { EditableCard } from './EditableCard';
+export { EditableImage } from './EditableImage';
+export { EditableSection } from './EditableSection';
+export { EditableStatsCard } from './EditableStatsCard';
+export { EditableFeatureCard } from './EditableFeatureCard';
+export { RichImageCard } from './RichImageCard';
+export { Section } from './Section';
+export { HeroImmersive } from './HeroImmersive';
